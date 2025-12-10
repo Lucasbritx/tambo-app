@@ -10,6 +10,7 @@
 
 import RecipeCard from "@/components/recipe-card";
 import { Graph, graphSchema } from "@/components/tambo/graph";
+import TeamCard from "@/components/team-card";
 import { DataCard, dataCardSchema } from "@/components/ui/card-data";
 import {
   getCountryPopulations,
@@ -43,7 +44,7 @@ export const tools: TamboTool[] = [
             limit: z.number().optional(),
             order: z.enum(["asc", "desc"]).optional(),
           })
-          .optional(),
+          .optional()
       )
       .returns(
         z.array(
@@ -61,8 +62,8 @@ export const tools: TamboTool[] = [
             population: z.number(),
             year: z.number(),
             growthRate: z.number(),
-          }),
-        ),
+          })
+        )
       ),
   },
   {
@@ -78,7 +79,7 @@ export const tools: TamboTool[] = [
             startYear: z.number().optional(),
             endYear: z.number().optional(),
           })
-          .optional(),
+          .optional()
       )
       .returns(
         z.array(
@@ -86,8 +87,8 @@ export const tools: TamboTool[] = [
             year: z.number(),
             population: z.number(),
             growthRate: z.number(),
-          }),
-        ),
+          })
+        )
       ),
   },
   // Add more tools here
@@ -115,7 +116,7 @@ export const components: TamboComponent[] = [
     component: DataCard,
     propsSchema: dataCardSchema,
   },
-    {
+  {
     name: "RecipeCard",
     description: "A component that renders a recipe card",
     component: RecipeCard,
@@ -136,6 +137,26 @@ export const components: TamboComponent[] = [
           })
         )
         .describe("The ingredients of the recipe"),
+    }),
+  },
+  {
+    name: "TeamCard",
+    description: "A component that renders a sport team",
+    component: TeamCard,
+    propsSchema: z.object({
+      logoUrl: z.string().url().describe("The URL of the team logo"),
+      name: z.string().describe("The name of the team"),
+      description: z.string().describe("The description of the team"),
+      foundationYear: z.number().describe("The year the team was founded"),
+      sport: z.string().describe("The sport the team plays"),
+      matches: z
+        .array(
+          z.object({
+            against: z.string().describe("The opposing team"),
+            score: z.string().describe("The match score"),
+          })
+        )
+        .describe("The matches of the team"),
     }),
   },
 ];
